@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: ./.docker/start.sh
+    container_name: blog-app
+    ports:
+      - 3001:3000
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=blog_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+
+  db:
+    image: postgres:15.3-alpine
+    container_name: blog-db
+    environment:
+      - POSTGRES_DB=blog_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

@@ -1,0 +1,72 @@
+@hostname = localhost
+@port = 3333
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+## valid uuid = 50cf148b-d8c9-48c9-94e3-91551f3ed62b
+### 
+# @name createCategory
+POST  http://{{host}}/categories
+Content-Type: application/json
+
+{
+    "name": "Desporto",
+    "description": "some description"
+}
+###
+
+@categoryId = {{createCategory.response.body.data.id}}
+###  List categories
+GET http://{{host}}/categories
+Content-Type: {{contentType}}
+
+### Get category
+GET  http://{{host}}/categories/{{categoryId}}
+Content-Type: {{contentType}}
+
+### Update category
+PATCH  http://{{host}}/categories/8180d203-77eb-47f9-a3b6-2d9375cc6ed2
+Content-Type: {{contentType}}
+
+{
+  "name": "Drama",
+  "description": "some description"
+}
+
+### Delete category
+DELETE  http://{{host}}/categories/8180d203-77eb-47f9-a3b6-2d9375cc6ed2
+
+### Create a new post
+# @name createPost
+POST  http://{{host}}/posts
+Content-Type: application/json
+
+{
+    "user_id": "50cf148b-d8c9-48c9-94e3-91551f3ed62b",
+    "category_id": "05057676-ba26-4310-9652-792da298f558",
+    "title": "Hello World",
+    "content": "Hello World!",
+    "image_url": "http://example.com/image.jpg"
+}
+
+###  List posts
+GET http://{{host}}/posts?filter=hello&sort=title&sort_dir=desc
+Content-Type: {{contentType}}
+
+### Get post
+GET  http://{{host}}/posts/97909085-28d0-47c4-a1d4-285295426ffc
+Content-Type: {{contentType}}
+
+
+### update a new post
+PATCH   http://{{host}}/posts/97909085-28d0-47c4-a1d4-285295426ffc
+Content-Type: application/json
+
+{
+    "category_id": "05057676-ba26-4310-9652-792da298f558",
+    "content": "Hello OOOOO!",
+    "image_url": "http://example.com/image.jpg"
+}
+
+
+### delete a new post
+DELETE http://{{host}}/posts/97909085-28d0-47c4-a1d4-285295426ffc
